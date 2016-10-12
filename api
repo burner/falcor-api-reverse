@@ -1,0 +1,24 @@
+1. get("greetings[0..1].['name','value']")
+2. { paths: '[["greetings",{"from":0,"to":1},["name","value"]]]', method: 'get' }
+3. { jsonGraph : {greetings: {0: {name: "Hello World", value: "Foo"}, 1: {name: "Hello Node", value: "Bar"}}},
+     paths : [["greetings", 0, "name"], ["greetings", 0, "value"], ["greetings", 1, "name"], ["greetings", 1, "value"]]}
+
+1. get("foo.bar")
+2. { paths: '[["foo","bar"]]', method: 'get' }
+3. { jsonGraph : {foo: {bar: 1}},
+	 paths: [["foo", "bar"]]}
+
+1. get("greetings[0,2].['name','value']")
+2. { paths: '[["greetings",[0,2],["name","value"]]]', method: 'get' }
+3. { jsonGraph : {greetings: {0: {name: "Hello World", value: "Foo"}, 2: {name: "Hello Vibe", value: "GGG"}}},
+     paths: [["greetings", 0, "name"], ["greetings", 0, "value"], ["greetings", 2, "name"], ["greetings", 2, "value"]]}
+
+1 . get("maps['a','b'].name")
+2. { paths: '[["maps",["a","b"],"name"]]', method: 'get' }
+3. { jsonGraph : {maps: {a: {name: "Hello Burner"}, b: {name: "Hello Nele"}}},
+     paths : [["maps", "a", "name"], ["maps", "b", "name"]]}
+
+1. get("greetings[0..1].['name','value']","foo.bar")
+2. { paths: '[["foo","bar"],["greetings",{"from":0,"to":1},["name","value"]]]', method: 'get' }
+3. { jsonGraph : {foo: {bar: 1}, {0: {name: "Hello World", value: "Foo"}, 1: {name: "Hello Node", value: "Bar"}}},
+     paths : [["foo", "bar"], ["greetings", 0, "name"], ["greetings", 0, "value"], ["greetings", 1, "name"], ["greetings", 0, "value"]] }
