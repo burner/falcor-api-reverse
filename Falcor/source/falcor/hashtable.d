@@ -1,6 +1,10 @@
 module falcor.hashtable;
 
-private size_t[] primTable = [
+import falcor.types;
+
+import std.stdio;
+
+private immutable(size_t[]) primTable = [
 	2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71,
 	73, 79, 83, 89, 97, 101, 103, 107, 109, 113, 127, 131, 137, 139, 149, 151,
 	157, 163, 167, 173, 179, 181, 191, 193, 197, 199, 211, 223, 227, 229, 233,
@@ -14,21 +18,14 @@ private size_t[] primTable = [
 	919, 929, 937, 941, 947, 953, 967, 971, 977, 983, 991, 997
 ];
 
-alias Callback = void delegate(JSONValue completePath, size_t offset, Method method,
-				JSONValue arguments);
-
 struct HashTable {
-	import hashfunctions;
+	import falcor.hashfunctions;
 	import std.container.array : Array;
-
-	struct StrDel {
-		string path;
-		Callback callback;
-	}
 
 	Array!StrDel routes;
 	Array!size_t hashes;
 	size_t primTablePtr = 0;
+	HashFunction hashFunction;
 
 	void insert(string path, Callback callback) {
 		this.routes.insertBack(StrDel(path, callback));
@@ -42,30 +39,52 @@ struct HashTable {
 
 	final void nullFill() {
 		for(size_t i = 0; i < primTable[this.primTablePtr]; ++i) {
-			this.hashed.insertBack(size_t.max);
+			this.hashes.insertBack(size_t.max);
 		}
+	}
+
+	bool testHashCombination() {
+		this.clearHashes();
+		this.nullFill();
+		size_t idx = 0;
+		foreach(ref it; this.routes) {
+			const h = hash(it.path, this.hashFunction);
+			const hmod = h % primTable[this.primTablePtr];
+			if(this.hashes[hmod] != size_t.max) {
+				return false;
+			} else {
+				this.hashes[hmod] = idx;
+			}
+			++idx;
+		}
+		return true;
 	}
 
 	void rebuildHashes() {
-		while(true) {
-			this.clearHashes();
+		while(this.primTablePtr < primTable.length) {
 			foreach(hf; [HashFunction.Jenkins, HashFunction.Murmur,
 					HashFunction.Siphash, HashFunction.XXhash])
 			{
-				size_t idx = 0;
-				foreach(ref it; this.routes) {
-					const h = hash(it.path, hf);
-					const hmod = h % primTable[this.primTablePtr];
-					if(this.hashes[hmod] == size_t.max) {
-						
-					} else {
-						this.hashes[hmod] = idx
-					}
-
-					++idx;
+				this.hashFunction = hf;
+				if(testHashCombination()) {
+					return;
 				}
 			}
+			++this.primTablePtr;
 		}
+		assert(false);
 	}
+}
 
+unittest {
+	import std.stdio;
+
+	HashTable ht;
+	ht.insert("hello", null);
+	ht.insert("hella", null);
+	ht.insert("world", null);
+	ht.insert("foobar", null);
+	ht.rebuildHashes();
+
+	writeln(ht.hashes[]);
 }

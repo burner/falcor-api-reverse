@@ -18,17 +18,14 @@ unittest {
 			jenkins_one_at_a_time_hash("hello"));
 }
 
-enum HashFunction {
-	Jenkins,
-	Murmur,
-	Siphash,
-	XXhash,
-}
+
+import falcor.types : HashFunction;
 
 uint hash(const(string) s, HashFunction hf) {
 	import murmurhash3;
 	import siphash;
 	import xxhash;
+
 	final switch(hf) {
 		case HashFunction.Jenkins:
 			return jenkins_one_at_a_time_hash(s);
