@@ -1,0 +1,15 @@
+{
+	"name": "falcor",
+	"authors": [
+		"burner"
+	],
+	"description": "A falcor router in D.",
+	"copyright": "Copyright © 2016, burner",
+	"license": "LGPL3",
+	"dependencies" : {
+		"std_data_json": "~>0.18.2",
+		"murmurhash3": "~>0.1.5",
+		"siphash": "~master",
+		"xxhash": "~master"
+	}
+}
