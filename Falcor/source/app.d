@@ -1,6 +1,6 @@
 import std.stdio;
+import falcor.hashfunctions : benchmarkHashFunctions;
 
-void main()
-{
-	writeln("Edit source/app.d to start your project.");
+void main() {
+	benchmarkHashFunctions();
 }

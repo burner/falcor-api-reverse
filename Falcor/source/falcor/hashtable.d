@@ -62,8 +62,8 @@ struct HashTable {
 
 	void rebuildHashes() {
 		while(this.primTablePtr < primTable.length) {
-			foreach(hf; [HashFunction.Jenkins, HashFunction.Murmur,
-					HashFunction.Siphash, HashFunction.XXhash])
+			foreach(hf; [HashFunction.XXhash, HashFunction.Siphash,
+					HashFunction.Murmur, HashFunction.Jenkins])
 			{
 				this.hashFunction = hf;
 				if(testHashCombination()) {

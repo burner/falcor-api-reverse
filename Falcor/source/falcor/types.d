@@ -3,10 +3,12 @@ module falcor.types;
 import stdx.data.json.value;
 
 enum HashFunction {
+	Siphash,
 	Jenkins,
 	Murmur,
-	Siphash,
 	XXhash,
+	SimdJenkins,
+	Spooky,
 }
 
 enum Method {
