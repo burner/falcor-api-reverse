@@ -72,7 +72,7 @@ void benchmarkHashFunctions() {
 			HashFunction.Siphash, HashFunction.Jenkins];
 	TickDuration[hfuns.length] times;
 	int[hfuns.length] collisions;
-	for(int j = 0; j < 10; ++j) {
+	for(int j = 0; j < 1; ++j) {
 	foreach(hf; hfuns)
 	{
 		writeln(hf);
@@ -81,7 +81,7 @@ void benchmarkHashFunctions() {
 
 		StopWatch sw;
 		sw.start();
-		for(int i = 0; i < 1000; ++i) {
+		for(int i = 0; i < 100; ++i) {
 			foreach(str; manyStrings) {
 				hashes[hash(str, hf) % hashes.length] += 1;
 			}

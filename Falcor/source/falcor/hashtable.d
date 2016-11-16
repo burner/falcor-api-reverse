@@ -61,16 +61,17 @@ struct HashTable {
 	}
 
 	void rebuildHashes() {
-		while(this.primTablePtr < primTable.length) {
-			foreach(hf; [HashFunction.XXhash, HashFunction.Siphash,
-					HashFunction.Murmur, HashFunction.Jenkins])
-			{
-				this.hashFunction = hf;
+		foreach(hf; [HashFunction.Jenkins, HashFunction.Siphash,
+				HashFunction.Murmur, HashFunction.XXhash])
+		{
+			this.hashFunction = hf;
+
+			while(this.primTablePtr < primTable.length) {
 				if(testHashCombination()) {
 					return;
 				}
+				++this.primTablePtr;
 			}
-			++this.primTablePtr;
 		}
 		assert(false);
 	}
@@ -78,13 +79,12 @@ struct HashTable {
 
 unittest {
 	import std.stdio;
-
-	HashTable ht;
-	ht.insert("hello", null);
-	ht.insert("hella", null);
-	ht.insert("world", null);
-	ht.insert("foobar", null);
-	ht.rebuildHashes();
-
-	writeln(ht.hashes[]);
+	writeln(__LINE__);
+	auto strs = ["hello","hella", "world", "foobar"];
+	HashTable ht;       
+	foreach(str; strs) {
+		ht.insert(str, null);
+		ht.rebuildHashes();
+		writefln("%s %s", ht.hashFunction, ht.hashes[]);
+	}
 }
