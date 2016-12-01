@@ -9,8 +9,8 @@ class Router {
 
 	}
 
-	void insert(string path, Callback cb) {
-		this.ht.insert(StrDel(path, cb));
-		this.ht.rebuildHashes();
-	}
+	//void insert(string path, Callback cb) {
+	//	this.ht.insert(StrDel(path, cb));
+	//	this.ht.rebuildHashes();
+	//}
 }
