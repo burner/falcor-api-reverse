@@ -3,12 +3,19 @@ module falcor.router;
 import falcor.hashtable;
 import falcor.types;
 
-class Router {
+interface RouterParams {
+
+}
+
+abstract class Router {
 	HashTable ht;
 	this() {
 
 	}
 
+	abstract RouterParams getRouterParams(HttpRequest req); /* {
+
+	}*/
 /*
 users
 	{integer}
