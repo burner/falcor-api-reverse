@@ -8,7 +8,8 @@
       
       // retrieve the "greeting" key from the root of the Virtual JSON resource
 	  model.
-	  get("greetings[0..1].['name','value']","foo.bar").then(
+	  get("greetings[0..1].['name','value']").then(
+	  //get("greetings[0..1].['name','value']","foo.bar").then(
 		  function(response) {
 			  console.log(response);
 		  },
