@@ -1,11 +1,12 @@
 
 // index.js
 var falcorExpress = require('falcor-express');
+var jsonGraph = require('falcor-json-graph');
 var Router = require('falcor-router');
 
 var express = require('express');
 var app = express();
-var falcor = require('falcor');
+var falcor = require('falcor-router');
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: true}));
@@ -19,15 +20,15 @@ function example(){
             greetings: [
                  {
                      name: "Hello World",
-					 value: "Foo"
+					 value: jsonGraph.ref(["maps", "a"]) 
                  },
                  {
                      name: "Hello Node",
-					 value: "Bar"
+					 value: jsonGraph.ref(["maps", "a"]) 
                  },
                  {
                      name: "Hello Vibe",
-					 value: "GGG"
+					 value: jsonGraph.ref(["maps", "b"]) 
                  }
             ],
 			maps: {
@@ -45,7 +46,7 @@ function example(){
 app.use('/model.json', falcorExpress.dataSourceRoute(function (req, res) {
   // create a Virtual JSON resource with single key ("greeting")
 	console.log(req.query);
-    return new falcor.Model( example() ).asDataSource();
+    return new Router( example() );
 }));
 
 // serve static files from current directory
