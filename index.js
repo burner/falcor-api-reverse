@@ -20,15 +20,15 @@ function example(){
             greetings: [
                  {
                      name: "Hello World",
-					 value: jsonGraph.ref(["maps", "a"]) 
+					 value: { $type: "ref", value: ["maps", "a"]}
                  },
                  {
                      name: "Hello Node",
-					 value: jsonGraph.ref(["maps", "a"]) 
+					 value: { $type: "ref", value: ["maps", "a"]}
                  },
                  {
                      name: "Hello Vibe",
-					 value: jsonGraph.ref(["maps", "b"]) 
+					 value: { $type: "ref", value: ["maps", "b"]}
                  }
             ],
 			maps: {
@@ -43,30 +43,64 @@ function example(){
     }
 }
 
+var cache = {
+			foo : {
+				bar : 1
+			},
+            greetings: [
+                 {
+                     name: "Hello World",
+					 value: { $type: "ref", value: ["maps", 1]}
+                 },
+                 {
+                     name: "Hello Node",
+					 value: { $type: "ref", value: ["maps", 1]}
+                 },
+                 {
+                     name: "Hello Vibe",
+					 value: { $type: "ref", value: ["maps", 2]}
+                 }
+            ],
+			maps: {
+				1 : {
+						name: "Hello Burner"
+				},
+				2 : {
+						name: "Hello Nele"
+				}
+			}
+        };
+
 app.use('/model.json', falcorExpress.dataSourceRoute(function (req, res) {
   // create a Virtual JSON resource with single key ("greeting")
-	console.log(req.query);
+	console.log("req ", req.query);
     return new Router([
 		{
 			route: "greetings[{integers:idx}]",
 			get: function(pathSet) {
-				if(pathSet.idx == 0) {
-					return { path : ["greetings", pathSet.idx],
-                 	  value : {
-                     	name: "Hello World",
-					 	value: "Foobar"
-                 	  }
-					}
-				} else if(pathSet.idx == 1) {
-					return { path : ["greetings", pathSet.idx],
-                 	  value : {
-                     	name: "Hello Vibe",
-					 	value: "args"
-                 	  }
-					}
-				}
+				console.log("gp ", pathSet);
+				return pathSet.idx.map(function(i) {
+					return { path: ["greetings", i], value: cache.greetings[i]}
+				});
 			}
-		}
+		},
+		{
+			route: "maps[{integers:idx}]",
+			get: function(pathSet) {
+				var l = ["a", "b"];
+				console.log("mp ", pathSet);
+				var rslt = [];
+				pathSet.idx.forEach(function(key) {
+					var t = {
+						path: ["maps", key], 
+						value: cache.maps[key].name
+					};
+					console.log(t);
+					rslt.push(t);
+				});
+				return rslt;
+			}
+		},
 	]);
 }));
 

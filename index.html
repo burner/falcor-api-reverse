@@ -12,6 +12,8 @@
 	  //get("greetings[0..1].['name','value']","foo.bar").then(
 		  function(response) {
 			  console.log(response);
+			  model.get("greetings[0].value").then(
+			  function(re) { console.log(re); });
 		  },
 		  function(err) {
 				  console.log(err);
@@ -45,8 +47,8 @@
 		  }
 		);*/
 
-	  /*model.
-	  get("maps['a','b'].name").then(
+	  model.
+	  get("maps[1]").then(
 		  function(response) {
 			  console.log(response);
 		  },
@@ -54,7 +56,6 @@
 				  console.log(err);
 		  }
 		);
-		*/
 
     </script>
   </head>
