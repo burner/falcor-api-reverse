@@ -12,9 +12,9 @@
     "express": "4.14.0",
     "falcor-express": "0.1.4",
     "falcor-router": "~0.2.9",
-    "falcor": "~0.1.2",
-    "falcor": "7.0.3",
+    "falcor": "~0.1.17",
     "rx": "2.5.3",
+	"promise": "7.0.3",
     "falcor-json-graph": "~1.1.5"
   }
 }

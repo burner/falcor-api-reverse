@@ -7,13 +7,27 @@
       var model = new falcor.Model({source: new falcor.HttpDataSource('/model.json') });
       
       // retrieve the "greeting" key from the root of the Virtual JSON resource
-	  model.
-	  get("greetings[0..1].['name','value']").then(
-	  //get("greetings[0..1].['name','value']","foo.bar").then(
+	  /*model.
+	  get("greetings[1]").then(
 		  function(response) {
 			  console.log(response);
-			  model.get("greetings[0].value").then(
-			  function(re) { console.log(re); });
+		  },
+		  function(err) {
+				  console.log(err);
+		  }
+		);*/
+	  /*model.
+	  get("maps[1].name").then(
+		  function(response) {
+			  console.log(response);
+		  },
+		  function(err) {
+				  console.log(err);
+		  }
+		);*/
+	  model.get("greetings[0].value.name").then(
+		  function(response) {
+			  console.log(response);
 		  },
 		  function(err) {
 				  console.log(err);
@@ -38,7 +52,7 @@
 		  }
 		);*/
 	  /*model.
-	  get("greetings[0,2].['name','value']").then(
+	  get("greetings[0].value.name").then(
 		  function(response) {
 			  console.log(response);
 		  },
@@ -47,7 +61,7 @@
 		  }
 		);*/
 
-	  model.
+	  /*model.
 	  get("maps[1]").then(
 		  function(response) {
 			  console.log(response);
@@ -55,7 +69,7 @@
 		  function(err) {
 				  console.log(err);
 		  }
-		);
+		);*/
 
     </script>
   </head>
