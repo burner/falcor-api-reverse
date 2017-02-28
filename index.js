@@ -43,52 +43,35 @@ var model = new falcor.Model({
 
 var $ref = jsonGraph.ref;
 
+var callsource = new Router([
+{
+	route: 'list.push',
+	call: function(callPath, args) {
+	     // retrieving the title id from the reference path:				
+		console.log(args);
+		return [
+		     {
+		   		path: ['foo', "bar"],
+		   		value: 1337
+		     },
+		     {
+		   		path: ['myList', 'length'],
+		   		value: 1337
+		     }
+		];
+	}
+}]);
+
 app.use('/model.json', falcorExpress.dataSourceRoute(function (req, res) {
   // create a Virtual JSON resource with single key ("greeting")
 	console.log("req ", req.query);
-    /*return new Router([
-		{
-			route: "greetings[{integers:idx}]",
-			get: function(pathSet) {
-				console.log("gp ", pathSet);
-				return pathSet.idx.map(function(i) {
-					return { path: ["greetings", i], value: $ref(cache.greetings[i])}
-				});
-			}
-		},
-		{
-			route: "maps[{integers:idx}]",
-			get: function(pathSet) {
-				var l = ["a", "b"];
-				console.log("mp ", pathSet);
-				var rslt = [];
-				pathSet.idx.forEach(function(key) {
-					var t = {
-						path: ["maps", key], 
-						value: cache.maps[key]
-					};
-					console.log(t);
-					rslt.push(t);
-				});
-				return rslt;
-			}
-		},
-		{
-			route: "maps[{integers:idx}].['name']",
-			get: function(pathSet) {
-				console.log("mp ", pathSet);
-				return pathSet.idx.map(function(key) {
-					console.log(key);
-					return {
-						path: ["maps", key, "name"], 
-						value: cache.maps[key].name
-					};
-				});
-				return rslt;
-			}
-		},
-	]);*/
 	return model.asDataSource();
+}));
+
+app.use('/call.json', falcorExpress.dataSourceRoute(function(req, res) {
+    // Passing in the user ID, this should be retrieved via some auth system
+	console.log("req ", req.query);
+    return callsource;
 }));
 
 // serve static files from current directory
