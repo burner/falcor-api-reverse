@@ -35,7 +35,24 @@
 				  console.log(err);
 		  }
 		);
-		callModel.call(["list", "push"], ["foo", "bar"])
+	  model.setValue("greetings[0].value.name", "afskldjafkö").then(
+		  function(response) {
+			  console.log(response);
+				/*model = new falcor.Model({source: new falcor.HttpDataSource('/model.json') });
+			  model.getValue("greetings[0].value.name").then(
+				  function(response) {
+					  console.log(response);
+				  },
+				  function(err) {
+						  console.log(err);
+				  }
+				);*/
+		  },
+		  function(err) {
+				  console.log(err);
+		  }
+		);
+		/*callModel.call(["list", "push"], ["foo", "bar"])
 		.then(
 			function(response) {
 				console.log(response);
@@ -43,7 +60,7 @@
 			function(err) {
 				console.log(err);
 			}
-		);
+		);*/
 	  /*model.
 	  get("foo").then(
 		  function(response) {

@@ -64,12 +64,13 @@ var callsource = new Router([
 
 app.use('/model.json', falcorExpress.dataSourceRoute(function (req, res) {
   // create a Virtual JSON resource with single key ("greeting")
-	console.log("req ", req.query);
+	console.log("req ", req);
 	return model.asDataSource();
 }));
 
 app.use('/call.json', falcorExpress.dataSourceRoute(function(req, res) {
     // Passing in the user ID, this should be retrieved via some auth system
+	console.log(req);
 	console.log("req ", req.query);
     return callsource;
 }));
