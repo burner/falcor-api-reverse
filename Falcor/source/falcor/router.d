@@ -3,15 +3,75 @@ module falcor.router;
 import falcor.hashtable;
 import falcor.types;
 
-interface RouterParams {
+struct Range {
+	Json[] values;
+	ptrdiff_t low;
+	ptrdiff_t high;
+	
+	this(Json value) {
+		if(this.value.type == Type.array) {
+			this.values = value;
+		} else {
+			Json[1] tmp;
+			tmp[0] = value;
+			this.values = Json(tmp[]);
+		}
 
+		this.low = 0;
+		this.high = this.values.length - 1;
+	}
+
+	@property Json front() {
+		return this.values[this.low];
+	}
+
+	@property Json back() {
+		return this.values[this.high];
+	}
+
+	@property bool empty() const {
+		return this.low > this.high;
+	}
+
+	void popFront() {
+		++this.low;
+	}
+
+	void popBack() {
+		--this.back;
+	}
 }
 
+enum IntegerType {
+	FromTo,
+	Values
+}
+
+struct Integers {
+	IntegerType type;
+	Json value;
+
+	Range getBidirectionalRange() {
+		return Range(this.value);
+	}
+}
+
+struct Strings {
+	Json value;
+
+	Range getBidirectionalRange() {
+		return Range(this.value);
+	}
+}
+
+/+
 abstract class Router {
 	HashTable ht;
 	this() {
 
 	}
+
+	void registerRoute(
 
 	abstract RouterParams getRouterParams(HttpRequest req); /* {
 
@@ -70,3 +130,4 @@ Grammar-Trie of all methods
 	//	this.ht.rebuildHashes();
 	//}
 }
++/
