@@ -64,18 +64,15 @@ struct Strings {
 	}
 }
 
-/+
-abstract class Router {
+class Router {
 	HashTable ht;
 	this() {
 
 	}
 
-	void registerRoute(
+	void registerRoute(alias Fun)() {
+	}
 
-	abstract RouterParams getRouterParams(HttpRequest req); /* {
-
-	}*/
 /*
 users
 	{integer}
@@ -130,4 +127,3 @@ Grammar-Trie of all methods
 	//	this.ht.rebuildHashes();
 	//}
 }
-+/
