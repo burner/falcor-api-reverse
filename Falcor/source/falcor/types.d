@@ -1,7 +1,5 @@
 module falcor.types;
 
-import stdx.data.json.value;
-
 enum HashFunction {
 	Siphash,
 	Jenkins,
@@ -17,11 +15,12 @@ enum Method {
 	Call
 }
 
-struct StrDel {
+/*struct StrDel {
 	string path;
 	Callback callback;
 }
 
 alias Callback = void delegate(JSONValue completePath, size_t offset, Method method,
 				JSONValue arguments);
+*/
 

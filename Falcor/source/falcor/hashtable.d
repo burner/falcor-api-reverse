@@ -4,17 +4,22 @@ import falcor.types;
 
 import std.stdio;
 
-struct HashTable {
+struct HashTable(Key,Value) {
 	import falcor.hashfunctions;
 	import std.container.array : Array;
 
-	Array!StrDel routes;
+	struct KeyValue {
+		Key key;
+		Value value;
+	}
+
+	Array!(KeyValue) routes;
 	Array!size_t hashes;
 	size_t primTablePtr = 1;
 	HashFunction hashFunction;
 
-	void insert(string path, Callback callback) {
-		this.routes.insertBack(StrDel(path, callback));
+	void insert(Key key, Value value) {
+		this.routes.insertBack(KeyValue(key, value));
 	}
 
 	final void clearHashes() {

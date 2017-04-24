@@ -1,5 +1,7 @@
 module falcor.router;
 
+import vibe.data.json;
+
 import falcor.hashtable;
 import falcor.types;
 
@@ -9,12 +11,12 @@ struct Range {
 	ptrdiff_t high;
 	
 	this(Json value) {
-		if(this.value.type == Type.array) {
-			this.values = value;
+		if(value.type == Json.Type.array) {
+			this.values = value.get!(Json[])();
 		} else {
 			Json[1] tmp;
 			tmp[0] = value;
-			this.values = Json(tmp[]);
+			this.values = Json(tmp[]).get!(Json[])();
 		}
 
 		this.low = 0;
@@ -38,7 +40,7 @@ struct Range {
 	}
 
 	void popBack() {
-		--this.back;
+		--this.high;
 	}
 }
 
@@ -64,8 +66,12 @@ struct Strings {
 	}
 }
 
+struct Get {
+	string path;
+}
+
 class Router {
-	HashTable ht;
+	//HashTable ht;
 	this() {
 
 	}
@@ -106,8 +112,8 @@ Grammar-Trie of all methods
 
 	@Get("users[ids:{integer}].[attri: username, passwordHash]")
 	void userNameHash(
-		ref JSONValue requestPath,
-		ref JSONValue retValues, ref JSONValue retPaths, 
+		ref Json requestPath,
+		ref Json retValues, ref Json retPaths, 
 		Integers ids, Strings attri)
 	{
 
@@ -115,8 +121,8 @@ Grammar-Trie of all methods
 
 	@Get("users[ids:{integer}].[attri: firstname, lastname, email]")
 	void userFirstLastEmail(
-		ref JSONValue requestPath,
-		ref JSONValue retValues, ref JSONValue retPaths, 
+		ref Json requestPath,
+		ref Json retValues, ref Json retPaths, 
 		Integers ids, Strings attri)
 	{
 
